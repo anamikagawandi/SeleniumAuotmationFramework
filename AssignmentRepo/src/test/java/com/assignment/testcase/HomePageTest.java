@@ -5,10 +5,12 @@ import java.io.IOException;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.assignment.base.TestBase;
 import com.assignment.pages.HomePage;
+import com.assignment.util.JsonUtil;
 
 
 public class HomePageTest extends TestBase {
@@ -20,6 +22,14 @@ public class HomePageTest extends TestBase {
 		super();
 	}
 	
+	
+	@DataProvider(name="getData")
+	public String[][] getCommunityData()
+	{
+		return new JsonUtil().getDomainLang();
+	}
+	
+	
 		
 	@BeforeMethod
 	public void setup()
@@ -28,35 +38,22 @@ public class HomePageTest extends TestBase {
 		homepage = new HomePage();
 	}
 
-	@Test(priority=1)
-	public void verifyLang() throws IOException
+	@Test(priority=1,dataProvider="getData")
+	public void verifyLang(String community,String lang) throws IOException
 	{
-		
-	}
-	
-	
-	
-	
-	@Test(priority=2)
-	public void goToMobilePageTest() throws IOException
-	{
-	
-		try {
-		//System.out.println(homepage.goToMobilePage());
-		
-
-		}
-		catch(AssertionError e)
+		System.out.println(community);
+		System.out.println(lang);
+		if(!lang.equalsIgnoreCase("null"))
 		{
-	
+			Assert.assertTrue(homepage.getLanguages(community).contains(lang.toLowerCase()));;
 		}
+			
 	}
-	
 	
 	@AfterMethod
 	public void tearDown()
 	{
-		//driver.close();
+		driver.close();
 		driver.quit();
 	}
 

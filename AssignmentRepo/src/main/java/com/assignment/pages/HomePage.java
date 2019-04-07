@@ -1,7 +1,11 @@
 package com.assignment.pages;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -17,16 +21,25 @@ public class HomePage extends TestBase{
 	JavascriptExecutor executor;
 	public HomePage()
 	{
-		super();
-		super.initialization();
+		//super();
+		//super.initialization();
 		executor = (JavascriptExecutor)driver;
 		gen= new GeneralUtils();
 	}
 	
 	
-	
-	public void goToSignUpFromLogin()
+
+	public void goToSignUpFromLetsBegin(String url)
 	{
+		driver.get("http://"+url);
+		FindByUtil.findByXpath("//div[@type='button']", driver).click();;
+	}
+	
+	
+	
+	public void goToSignUpFromLogin(String url)
+	{
+		driver.get("http://"+url);
 		//driver.findElement(By.xpath("//a[text()='Login']")).click();
 		FindByUtil.findByXpath("//a[text()='Login']", driver).click();
 		
@@ -42,9 +55,10 @@ public class HomePage extends TestBase{
 		FindByUtil.findByXpath("//a[@id='btnSubmit' and text()='Next']", driver).click();
 	}
 	
-	public void goToInputSignUpDetailPageThree() {
+	public SignUpDetailPage goToInputSignUpDetailPageThree() {
 		WaitUtil.waitForInteract(FindByUtil.findByXpath("//a[@id='btnSubmit' and text()='Sign Up']", driver), driver);
 		FindByUtil.findByXpath("//a[@id='btnSubmit' and text()='Sign Up']", driver).click();
+		return new SignUpDetailPage();
 	}
 	
 	public void inputSignUpDetailPageOne()
@@ -91,7 +105,9 @@ public class HomePage extends TestBase{
 		gen.intializeSelectById("layer_month", driver).selectByIndex(4);
 		gen.intializeSelectById("layer_year", driver).selectByValue("1990");
 	
-		
+		//executor.executeScript("document.getElementById(\"layer_day\").value = \"29\"");
+		//executor.executeScript("document.getElementById(\"layer_month\").value = \"Jun\"");
+		//executor.executeScript("document.getElementById(\"layer_year\").value = \"1990\"");
 		
 		/*FindByUtil.findByID("s2id_layer_community", driver).click();
 		
@@ -105,22 +121,47 @@ public class HomePage extends TestBase{
 		
 		
 		gen.intializeSelectById("layer_community", driver).selectByValue("Hindu");
-		gen.intializeSelectById("layer_mother_tongue", driver).selectByValue("Marathi");
+		gen.intializeSelectById("layer_mother_tongue_select", driver).selectByValue("Hindi");
 		gen.intializeSelectById("layer_countryofresidence", driver).selectByValue("India");
 		
 	}
 	
 	
-	public static void main(String args[])
+	public ArrayList<String> getLanguages(String url)
+	{
+		ArrayList<String> lang=new ArrayList<String>();
+		
+		goToSignUpFromLogin(url);
+		inputSignUpDetailPageOne();
+		goToInputSignUpDetailPageTwo();
+		inputSignUpDetailPageTwo();
+		
+		List<WebElement> opt = driver.findElements(By.xpath("//optgroup[@id='layer_mother_tongue_select-optgroup-Frequently Used']//option"));
+		opt.addAll(driver.findElements(By.xpath("//optgroup[@id='layer_mother_tongue_select-optgroup-More']//option")));
+		
+		for(WebElement e : opt)
+		{
+			lang.add(e.getText().toLowerCase());
+		}
+		
+		System.out.println(lang.toString());
+		return lang;
+	}
+
+	
+	public static void main(String args[]) throws Exception
 	{
 		HomePage h=new HomePage();
-		h.goToSignUpFromLogin();
-		h.inputSignUpDetailPageOne();
-		h.goToInputSignUpDetailPageTwo();
-		h.inputSignUpDetailPageTwo();
+		//h.goToSignUpFromLogin("dsd");
+		//h.inputSignUpDetailPageOne();
+		///h.goToInputSignUpDetailPageTwo();
+		//h.inputSignUpDetailPageTwo();
 		//h.goToInputSignUpDetailPageThree();
 		
 		
 		//h.driver.quit();
+		
+		//h.getLanguages("http://www.marathishaadicentre.com");
+		
 	}
 }

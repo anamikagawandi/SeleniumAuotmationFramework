@@ -19,7 +19,7 @@ public class GeneralUtils extends TestBase{
 	{
 		FindByUtil.findByXpath(menu, driver).click();
 		
-		WaitUtil.waitFor(FindByUtil.findByXpath(option,driver),this.driver);
+		WaitUtil.waitFor(FindByUtil.findByXpath(option,driver),driver);
 		//driver.findElement(By.xpath("//div[text()='Self']")).click();
 		FindByUtil.findByXpath(option, driver).click();;
 		

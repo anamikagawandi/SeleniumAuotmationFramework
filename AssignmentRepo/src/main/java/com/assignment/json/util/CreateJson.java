@@ -24,9 +24,10 @@ public class CreateJson {
 
 		ObjectMapper mapper = new ObjectMapper();
 
+		ObjectNode d = mapper.createObjectNode();
 
 		ArrayNode domain = mapper.createArrayNode();
-
+		
 		BufferedReader reader;
 		try {
 			reader = new BufferedReader(new FileReader(
@@ -36,14 +37,16 @@ public class CreateJson {
 				System.out.println(line);
 
 				ObjectNode det = mapper.createObjectNode();
-				det.put("COMMUNITY", line);
-				det.put("LANG","null");
+				det.put("community", line);
+				det.put("lang","null");
 
 				domain.add(det);
 				// read next line
 				line = reader.readLine();
 			}
 			reader.close();
+			
+			d.putPOJO("domain",domain);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -51,7 +54,7 @@ public class CreateJson {
 
 
 		try {
-			mapper.writeValue(new File(".\\community.json"), domain);
+			mapper.writeValue(new File(".\\community.json"), d);
 		} catch (JsonGenerationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
