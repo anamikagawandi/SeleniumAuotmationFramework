@@ -121,7 +121,7 @@ public class HomePage extends TestBase{
 		
 		
 		gen.intializeSelectById("layer_community", driver).selectByValue("Hindu");
-		gen.intializeSelectById("layer_mother_tongue_select", driver).selectByValue("Hindi");
+		gen.intializeSelectByName("mother_tongue", driver).selectByValue("Hindi");
 		gen.intializeSelectById("layer_countryofresidence", driver).selectByValue("India");
 		
 	}
@@ -149,9 +149,9 @@ public class HomePage extends TestBase{
 	}
 
 	
-	public static void main(String args[]) throws Exception
-	{
-		HomePage h=new HomePage();
+	//public static void main(String args[]) throws Exception
+	//{
+		//HomePage h=new HomePage();
 		//h.goToSignUpFromLogin("dsd");
 		//h.inputSignUpDetailPageOne();
 		///h.goToInputSignUpDetailPageTwo();
@@ -163,5 +163,5 @@ public class HomePage extends TestBase{
 		
 		//h.getLanguages("http://www.marathishaadicentre.com");
 		
-	}
+	//}
 }

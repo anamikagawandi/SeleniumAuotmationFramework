@@ -60,8 +60,16 @@ SignUpDetailPage signup;
 		homepage.inputSignUpDetailPageTwo();
 		signup=homepage.goToInputSignUpDetailPageThree();
 		
-		Assert.assertTrue(signup.getDomain().contains(community.toLowerCase()));
-	}
+		try {
+			Assert.assertTrue(signup.getDomain().contains(community.toLowerCase()));	
+		}
+		catch(AssertionError ae)
+		{
+			System.out.println("This domain is not present in the list : "+community);
+			//this is to fail the testcase
+			throw new AssertionError();
+		}
 	
+	}
 
 }

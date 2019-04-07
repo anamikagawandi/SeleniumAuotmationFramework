@@ -13,7 +13,11 @@ public class GeneralUtils extends TestBase{
 		return new Select(driver.findElement(By.id(s)));
 	}
 
-	
+	public Select intializeSelectByName(String s,WebDriver driver)
+	{
+		return new Select(driver.findElement(By.name(s)));
+	}
+
 	
 	public void handleSpanDropDown(String menu,String option, WebDriver driver)
 	{
